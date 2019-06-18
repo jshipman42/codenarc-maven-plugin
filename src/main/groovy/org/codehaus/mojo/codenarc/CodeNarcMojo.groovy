@@ -329,6 +329,7 @@ log4j.appender.R.layout.ConversionPattern=%d{ISO8601} %c{1} [%t] %p - %m%n
             [groupId: 'org.codehaus.groovy', artifactId: 'groovy-all', version: groovyVersion]
     ]
 
+    def dependencies = pluginContext.get("pluginDescriptor").plugin.dependencies
 
     compileSourceRoots.each() { compileSourceRoot -> log.debug( "compileSourceRoot ==> ${compileSourceRoot}" ) }
 
@@ -361,6 +362,18 @@ log4j.appender.R.layout.ConversionPattern=%d{ISO8601} %c{1} [%t] %p - %m%n
           pathelement( location: pomArtifact.file )
       }
 
+      dependencies.each() {
+        dependency ->
+
+          if (dependency.type == 'jar') {
+            pomArtifact = this.factory.createArtifact( dependency[ 'groupId' ], dependency[ 'artifactId' ], dependency[ 'version' ], "", "jar" )
+
+            artifactResolver.resolve( pomArtifact, this.remoteRepositories, this.localRepository )
+
+            log.debug( "pomArtifact => ${pomArtifact.file}" )
+            pathelement( location: pomArtifact.file )
+          }
+      }
 
       tempLogFile = new File( "${project.getBuild().getDirectory()}/log4j.properties" )
 
