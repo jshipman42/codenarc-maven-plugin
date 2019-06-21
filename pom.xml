@@ -10,7 +10,7 @@
 
   <groupId>org.codehaus.mojo</groupId>
   <artifactId>codenarc-maven-plugin</artifactId>
-  <version>0.22-2-SNAPSHOT</version>
+  <version>0.22-2-BIP</version>
   <packaging>maven-plugin</packaging>
 
   <name>CodeNarc Maven Plugin</name>
